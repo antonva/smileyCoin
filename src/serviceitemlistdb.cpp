@@ -1,25 +1,21 @@
-//
-// Created by Lenovo on 4/24/2020.
-//
-
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developersg
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "serviceitemlistdb.h"
+#include <serviceitemlistdb.h>
 
-#include "base58.h"
-#include "net.h"
-#include "netbase.h"
-#include "rpcserver.h"
-#include "util.h"
+#include <base58.h>
+#include <net.h>
+#include <netbase.h>
+#include <rpc/server.h>
+#include <util.h>
 #include <vector>
 
-#include "init.h"
-#include "main.h"
-#include "sync.h"
-#include "wallet.h"
+#include <init.h>
+#include <main.h>
+#include <sync.h>
+#include <wallet.h>
 
 inline std::string TicketAction(const CServiceTicket &ai) {return get<0>(ai);}
 inline std::string TicketToAddress(const CServiceTicket &ai) {return get<1>(ai);}

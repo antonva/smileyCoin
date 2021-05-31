@@ -1,14 +1,29 @@
+DIST_SUBDIRS = univalue
+
 AM_LDFLAGS = $(PTHREAD_CFLAGS) $(HARDENED_LDFLAGS) $(LIBTOOL_LDFLAGS)
 AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
-BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_FLAGS) -msse2
+if EMBEDDED_UNIVALUE
+LIBUNIVALUE = univalue/libunivalue.la
+
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+else
+LIBUNIVALUE = $(UNIVALUE_LIBS)
+endif
+
+BITCOIN_CONFIG_INCLUDES=-I$(builddir)/config
+BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BITCOIN_CONFIG_INCLUDES) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_FLAGS) -msse2
+BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
+
 
 EXTRA_LIBRARIES += \
   libbitcoin_server.a \
   libbitcoin_common.a \
-  libbitcoin_cli.a
+  libbitcoin_cli.a \
+  crypto/libbitcoin_crypto.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 EXTRA_LIBRARIES += libbitcoin_wallet.a
@@ -59,9 +74,9 @@ BITCOIN_CORE_H = \
   net.h \
   noui.h \
   protocol.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcserver.h \
+  rpc/client.h \
+  rpc/protocol.h \
+  rpc/server.h \
   script.h \
   serialize.h \
   sync.h \
@@ -127,12 +142,12 @@ libbitcoin_server_a_SOURCES = \
   richlistdb.cpp \
   servicelistdb.cpp \
   serviceitemlistdb.cpp \
-  rpcblockchain.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/blockchain.cpp \
+  rpc/mining.cpp \
+  rpc/misc.cpp \
+  rpc/net.cpp \
+  rpc/rawtransaction.cpp \
+  rpc/server.cpp \
   txdb.cpp \
   txmempool.cpp \
   $(JSON_H) \
@@ -150,6 +165,16 @@ libbitcoin_wallet_a_SOURCES = \
   jeeq.cpp \
   $(BITCOIN_CORE_H)
 
+crypto_libbitcoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+crypto_libbitcoin_crypto_a_SOURCES = \
+	crypto/sha1.cpp \
+	crypto/sha2.cpp \
+	crypto/ripemd160.cpp \
+	crypto/common.h \
+	crypto/sha2.h \
+	crypto/sha1.h \
+	crypto/ripemd160.h
+
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
@@ -161,7 +186,7 @@ libbitcoin_common_a_SOURCES = \
   key.cpp \
   netbase.cpp \
   protocol.cpp \
-  rpcprotocol.cpp \
+  rpc/protocol.cpp \
   script.cpp \
   sync.cpp \
   util.cpp \
@@ -190,7 +215,7 @@ endif
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
 nodist_libbitcoin_common_a_SOURCES = $(srcdir)/obj/build.h
@@ -199,9 +224,10 @@ nodist_libbitcoin_common_a_SOURCES = $(srcdir)/obj/build.h
 # bitcoind binary #
 smileycoind_LDADD = \
   libbitcoin_server.a \
-  libbitcoin_cli.a \
   libbitcoin_common.a \
+  crypto/libbitcoin_crypto.a \
   $(LIBLEVELDB) \
+	$(LIBUNIVALUE) \
   $(LIBMEMENV)
 if ENABLE_WALLET
 smileycoind_LDADD += libbitcoin_wallet.a
@@ -222,7 +248,9 @@ smileycoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS)
 smileycoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
+	crypto/libbitcoin_crypto.a \
   $(BOOST_LIBS) \
+	$(LIBUNIVALUE) \
   $(SSL_LIBS) \
   $(CRYPTO_LIBS)
 
@@ -237,6 +265,7 @@ endif
 smileycoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS)
 
 CLEANFILES = $(EXTRA_LIBRARIES)
+
 CLEANFILES += *.gcda *.gcno
 CLEANFILES += compat/*.gcda compat/*.gcno
 CLEANFILES += consensus/*.gcda consensus/*.gcno
@@ -256,6 +285,7 @@ DISTCLEANFILES = obj/build.h
 EXTRA_DIST =
 
 clean-local:
+	-$(MAKE) -C univalue clean
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
 	-rm -f config.h
 
@@ -271,6 +301,7 @@ LIBBITCOIN_SERVER=libbitcoin_server.a
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
 LIBBITCOIN_COMMON=libbitcoin_common.a
 LIBBITCOIN_CLI=libbitcoin_cli.a
+LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
 LIBBITCOINQT=qt/libbitcoinqt.a
 
 if EMBEDDED_LEVELDB

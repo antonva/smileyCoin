@@ -8,7 +8,7 @@ define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2020)
 AC_INIT([Smileycoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[https://github.com/smileycoin/smileyCoin/issues],[smileycoin],[http://bitcoin.org/])
 AC_CONFIG_SRCDIR([src/main.cpp])
-AC_CONFIG_HEADERS([src/bitcoin-config.h])
+AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
@@ -158,6 +158,12 @@ AC_ARG_ENABLE([glibc-back-compat],
   [enable backwards compatibility with glibc and libstdc++])],
   [use_glibc_compat=$enableval],
   [use_glibc_compat=no])
+
+AC_ARG_ENABLE([system-univalue],
+  [AS_HELP_STRING([--with-system-univalue],
+  [Build with system UniValue (default is no)])],
+  [system_univalue=$withval],
+  [system_univalue=no])
 
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
@@ -664,6 +670,53 @@ else
   fi
 fi
 
+dnl univalue check
+
+need_bundled_univalue=yes
+
+if test x$build_bitcoin_wallet$build_bitcoin_cli$build_bitcoind$bitcoin_enable_qt$use_tests = xnonononono; then
+   need_bundled_univalue=no
+else
+
+if test x$system_univalue != xno ; then
+  found_univalue=no
+  if test x$use_pkgconfig = xyes; then
+    : #NOP
+  m4_ifdef(
+    [PKG_CHECK_MODULES],
+    [
+      PKG_CHECK_MODULES([UNIVALUE],[libunivalue >= 1.0.4],[found_univalue=yes],[true])
+    ])
+  else
+    AC_CHECK_HEADER([univalue.h], [
+      AC_CHECK_LIB([univalue], [main], [
+        UNIVALUE_LIBS=-lunivalue
+        found_univalue=yes
+      ],[true])
+    ],[true])
+  fi
+
+  if test x$found_univalue = xyes ; then
+     system_univalue=yes
+     need_bundled_univalue=no
+  elif test x$system_univalue = xyes ; then
+       AC_MSG_ERROR([univalue not found])
+  else
+    system_univalue=no
+  fi
+fi
+
+if test x$need_bundled_univalue = xyes ; then
+  UNIVALUE_CFLAGS='-I$(srcdir)/univalue/include'
+  UNIVALUE_LIBS='univalue/libunivalue.la'
+fi
+
+fi
+
+AM_CONDITIONAL([EMBEDDED_UNIVALUE], [test x$need_bundled_univalue = xyes])
+AC_SUBST(UNIVALUE_CFLAGS)
+AC_SUBST(UNIVALUE_LIBS)
+
 BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
 AC_MSG_CHECKING([whether to build smileycoind])
@@ -846,4 +899,9 @@ AC_SUBST(BUILD_QT)
 AC_SUBST(BUILD_TEST_QT)
 AC_SUBST(MINIUPNPC_CPPFLAGS)
 AC_CONFIG_FILES([Makefile src/Makefile share/setup.nsi share/qt/Info.plist])
+
+if test x$need_bundled_univalue = xyes ; then
+  AC_CONFIG_SUBDIRS([src/univalue])
+fi
+
 AC_OUTPUT

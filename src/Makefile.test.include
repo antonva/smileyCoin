@@ -33,6 +33,7 @@ BITCOIN_TESTS =\
   test/compress_tests.cpp \
   test/DoS_tests.cpp \
   test/getarg_tests.cpp \
+  test/hash_tests.cpp \
   test/key_tests.cpp \
   test/main_tests.cpp \
   test/miner_tests.cpp \
@@ -44,6 +45,8 @@ BITCOIN_TESTS =\
   test/script_P2SH_tests.cpp \
   test/script_tests.cpp \
   test/serialize_tests.cpp \
+  test/sha1_tests.cpp \
+  test/sha2_tests.cpp \
   test/sigopcount_tests.cpp \
   test/test_bitcoin.cpp \
   test/transaction_tests.cpp \
@@ -61,7 +64,7 @@ endif
 
 test_test_smileycoin_SOURCES = $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
 test_test_smileycoin_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -I$(builddir)/test/ $(TESTDEFS)
-test_test_smileycoin_LDADD = $(LIBBITCOIN_SERVER) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
+test_test_smileycoin_LDADD = $(LIBBITCOIN_SERVER) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_CRYPTO) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(BOOST_UNIT_TEST_FRAMEWORK_LIB)
 test_test_smileycoin_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 if ENABLE_WALLET

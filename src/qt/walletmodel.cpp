@@ -2,27 +2,27 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "walletmodel.h"
+#include <walletmodel.h>
 
-#include "addresstablemodel.h"
-#include "guiconstants.h"
-#include "recentrequeststablemodel.h"
-#include "transactiontablemodel.h"
-#include "servicetablemodel.h"
-#include "tickettablemodel.h"
+#include <addresstablemodel.h>
+#include <guiconstants.h>
+#include <recentrequeststablemodel.h>
+#include <transactiontablemodel.h>
+#include <servicetablemodel.h>
+#include <tickettablemodel.h>
 
-#include "base58.h"
-#include "db.h"
-#include "keystore.h"
-#include "main.h"
-#include "rpcserver.h"
-#include "sync.h"
-#include "ui_interface.h"
-#include "wallet.h"
-#include "walletdb.h" // for BackupWallet
-#include "regex.h"
-#include "../jeeq.h"
-#include "init.cpp"
+#include <base58.h>
+#include <db.h>
+#include <keystore.h>
+#include <main.h>
+#include <rpc/server.h>
+#include <sync.h>
+#include <ui_interface.h>
+#include <wallet.h>
+#include <walletdb.h> // for BackupWallet
+#include <regex.h>
+#include <../jeeq.h>
+#include <init.cpp>
 
 #include <stdint.h>
 

@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE(AreInputsStandard)
     keystore.AddCScript(pay1);
     CScript pay1of3; pay1of3.SetMultisig(1, keys);
 
-    txFrom.vout[0].scriptPubKey.setDestination(pay1.GetID()); // P2SH (OP_CHECKSIG)
+    txFrom.vout[0].scriptPubKey.SetDestination(pay1.GetID()); // P2SH (OP_CHECKSIG)
     txFrom.vout[0].nValue = 1000;
     txFrom.vout[1].scriptPubKey = pay1; // ordinary OP_CHECKSIG
     txFrom.vout[1].nValue = 2000;

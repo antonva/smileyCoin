@@ -2,16 +2,16 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcconsole.h"
-#include "ui_rpcconsole.h"
 
-#include "clientmodel.h"
-#include "guiutil.h"
+#include <clientmodel.h>
+#include <guiutil.h>
 
-#include "rpcserver.h"
-#include "rpcclient.h"
+#include <rpc/server.h>
+#include <rpc/client.h>
+#include <qt/rpcconsole.h>
+#include <ui_rpcconsole.h>
 
-#include "json/json_spirit_value.h"
+#include <json/json_spirit_value.h>
 #include <openssl/crypto.h>
 #include <QKeyEvent>
 #include <QScrollBar>

@@ -3,31 +3,31 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "bitcoin-config.h"
+#include <bitcoin-config.h>
 #endif
 
-#include "bitcoingui.h"
+#include <bitcoingui.h>
 
-#include "clientmodel.h"
-#include "guiconstants.h"
-#include "guiutil.h"
-#include "intro.h"
-#include "optionsmodel.h"
-#include "splashscreen.h"
-#include "utilitydialog.h"
-#include "winshutdownmonitor.h"
+#include <clientmodel.h>
+#include <guiconstants.h>
+#include <guiutil.h>
+#include <intro.h>
+#include <optionsmodel.h>
+#include <splashscreen.h>
+#include <utilitydialog.h>
+#include <winshutdownmonitor.h>
 #ifdef ENABLE_WALLET
-#include "paymentserver.h"
-#include "walletmodel.h"
+#include <paymentserver.h>
+#include <walletmodel.h>
 #endif
 
-#include "init.h"
-#include "main.h"
-#include "rpcserver.h"
-#include "ui_interface.h"
-#include "util.h"
+#include <init.h>
+#include <main.h>
+#include <rpc/server.h>
+#include <ui_interface.h>
+#include <util.h>
 #ifdef ENABLE_WALLET
-#include "wallet.h"
+#include <wallet.h>
 #endif
 
 #include <stdint.h>
@@ -480,9 +480,9 @@ int main(int argc, char *argv[])
 
     // Show help message immediately after parsing command-line options (for "-lang") and setting locale,
     // but before showing splash screen.
-    if (mapArgs.count("-?") || mapArgs.count("--help"))
+    if (mapArgs.count("-?") || mapArgs.count("--help") || mapArgs.count("-version"))
     {
-        HelpMessageDialog help(NULL);
+        HelpMessageDialog help(NULL, mapArgs.count("-version"));
         help.showOrPrint();
         return 1;
     }

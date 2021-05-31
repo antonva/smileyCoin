@@ -5,7 +5,7 @@
 #ifndef SMILEYCOIN_SERVICELISTDB_H
 #define SMILEYCOIN_SERVICELISTDB_H
 
-#include "txdb.h"
+#include <txdb.h>
 
 class CServiceList;
 extern CServiceList ServiceList;

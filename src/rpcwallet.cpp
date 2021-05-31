@@ -3,21 +3,21 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "base58.h"
-#include "rpcserver.h"
-#include "init.h"
-#include "net.h"
-#include "netbase.h"
-#include "util.h"
-#include "wallet.h"
-#include "walletdb.h"
-#include "jeeq.h"
+#include <base58.h>
+#include <rpc/server.h>
+#include <init.h>
+#include <net.h>
+#include <netbase.h>
+#include <util.h>
+#include <wallet.h>
+#include <walletdb.h>
+#include <jeeq.h>
 
 #include <stdint.h>
 
 #include <boost/assign/list_of.hpp>
-#include "json/json_spirit_utils.h"
-#include "json/json_spirit_value.h"
+#include <json/json_spirit_utils.h>
+#include <json/json_spirit_value.h>
 
 using namespace std;
 using namespace boost;

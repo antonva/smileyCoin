@@ -3,26 +3,26 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "main.h"
+#include <main.h>
 
-#include "addrman.h"
-#include "alert.h"
-#include "base58.h"
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "checkqueue.h"
-#include "init.h"
-#include "net.h"
-#include "richlistdb.h"
-#include "servicelistdb.h"
-#include "serviceitemlistdb.h"
-#include "txdb.h"
-#include "txmempool.h"
-#include "ui_interface.h"
-#include "rpcserver.h"
-#include "wallet.h"
+#include <addrman.h>
+#include <alert.h>
+#include <base58.h>
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <checkqueue.h>
+#include <init.h>
+#include <net.h>
+#include <richlistdb.h>
+#include <servicelistdb.h>
+#include <serviceitemlistdb.h>
+#include <txdb.h>
+#include <txmempool.h>
+#include <ui_interface.h>
+#include <rpc/server.h>
+#include <wallet.h>
 
-#include "util.h"
+#include <util.h>
 
 #include <sstream>
 

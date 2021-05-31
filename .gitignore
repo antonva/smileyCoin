@@ -1,4 +1,3 @@
-.idea
 
 *.tar.gz
 
@@ -30,11 +29,9 @@ config.log
 config.status
 configure
 libtool
-src/smileycoin-config.h
-src/smileycoin-config.h.in
-src/bitcoin-config.h
-src/bitcoin-config.h.in
-src/stamp-h1
+src/config/bitcoin-config.h
+src/config/bitcoin-config.h.in
+src/config/stamp-h1
 src/obj
 share/setup.nsi
 share/qt/Info.plist
@@ -49,8 +46,12 @@ src/qt/test/moc*.cpp
 
 .deps
 .dirstamp
+.idea
+.vscode
+.libs
 .*.swp
 *.*~*
+*~
 *.bak
 *.rej
 *.orig

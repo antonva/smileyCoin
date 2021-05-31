@@ -2,19 +2,19 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "base58.h"
-#include "rpcserver.h"
-#include "init.h"
-#include "main.h"
-#include "sync.h"
-#include "wallet.h"
+#include <base58.h>
+#include <rpc/server.h>
+#include <init.h>
+#include <main.h>
+#include <sync.h>
+#include <wallet.h>
 
 #include <fstream>
 #include <stdint.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include "json/json_spirit_value.h"
+#include <json/json_spirit_value.h>
 
 using namespace json_spirit;
 using namespace std;
