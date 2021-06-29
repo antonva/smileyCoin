@@ -127,8 +127,9 @@ public:
         vSeeds.emplace_back("smileyco.in");
         vSeeds.emplace_back("dnsseed.smileyco.in");
 
-        // Smileycoin addresses were supposedly to start with an 'S' but 25 results in a 'B' pubkey address
-        // prefix. In order to change to an 'S', 63 should have been used.
+        // [smly] Smileycoin addresses were supposedly to start with an 'S'
+        // but 25 results in a 'B' pubkey address prefix. In order to change
+        // the prefix to an 'S', 63 should have been used.
         // Other prefixes are kept in line with 2.x wallet chainparams.
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,25);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
