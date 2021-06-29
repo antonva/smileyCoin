@@ -64,9 +64,9 @@ public:
     CMainParams() {
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 1226400;
-        consensus.BIP16Height = 0; // 87afb798a3ad9378fcd56123c81fb31cfd9a8df4719b9774d71730c16315a092 - October 1, 2012
-        consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("fa09d204a83a768ed5a7c8d441fa62f2043abf420cff1226c7b4329aeb9d51cf");
+        consensus.BIP16Height = 0; // [smly] Enacted before our time
+        consensus.BIP34Height = 1; // [smly] First mined block is v2
+        consensus.BIP34Hash = uint256S("70c81bab6688652cf89c22c8a6509b58b49519ad878452255d2468305157640d");
         consensus.BIP65Height = 918684; // bab3041e8977e0dc3eeff63fe707b92bde1dd449d8efafb248c27c8264cc311a
         consensus.BIP66Height = 811879; // 7aceee012833fa8952f8835d8b1b3ae233cd6ab08fdb27a771d2bd7bdc491894
         consensus.PremineEndHeight = 1000;
@@ -124,7 +124,6 @@ public:
         // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-        vSeeds.emplace_back("smileyco.in");
         vSeeds.emplace_back("dnsseed.smileyco.in");
 
         // [smly] Smileycoin addresses were supposedly to start with an 'S'
