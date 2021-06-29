@@ -59,12 +59,17 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
 
+    // [smly] The timespan was changed at block 97050
+    int64_t nPowTargetTimespan = params.nPowTargetTimespan;
+    if (pindexLast->nHeight < params.FirstTimespanChangeHeight)
+        nPowTargetTimespan = params.nPowOriginalTargetTimespan;
+
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
-    if (nActualTimespan < params.nPowTargetTimespan/4)
-        nActualTimespan = params.nPowTargetTimespan/4;
-    if (nActualTimespan > params.nPowTargetTimespan*4)
-        nActualTimespan = params.nPowTargetTimespan*4;
+    if (nActualTimespan < nPowTargetTimespan/4)
+        nActualTimespan = nPowTargetTimespan/4;
+    if (nActualTimespan > nPowTargetTimespan*4)
+        nActualTimespan = nPowTargetTimespan*4;
 
     // Retarget
     arith_uint256 bnNew;
@@ -77,7 +82,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     if (fShift)
         bnNew >>= 1;
     bnNew *= nActualTimespan;
-    bnNew /= params.nPowTargetTimespan;
+    bnNew /= nPowTargetTimespan;
     if (fShift)
         bnNew <<= 1;
 
