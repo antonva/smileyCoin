@@ -412,7 +412,26 @@ libbitcoin_consensus_a_SOURCES = \
   uint256.h \
   util/strencodings.cpp \
   util/strencodings.h \
-  version.h
+  version.h \
+  multialgo/groestl.c \
+  multialgo/aes_helper.c \
+  multialgo/skein.c \
+  multialgo/shavite.c \
+  multialgo/luffa.c \
+  multialgo/simd.c \
+  multialgo/echo.c \
+  multialgo/cubehash.c \
+  multialgo/hashgroestl.h \
+  multialgo/hashqubit.h \
+  multialgo/hashskein.h \
+  multialgo/sph_cubehash.h \
+  multialgo/sph_echo.h \
+  multialgo/sph_groestl.h \
+  multialgo/sph_luffa.h \
+  multialgo/sph_shavite.h \
+  multialgo/sph_simd.h \
+  multialgo/sph_skein.h \
+  multialgo/sph_types.h
 
 # common: shared between bitcoind, and bitcoin-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
