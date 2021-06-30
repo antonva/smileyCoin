@@ -124,6 +124,21 @@ public:
     explicit uint256(const std::vector<unsigned char>& vch) : base_blob<256>(vch) {}
 };
 
+/** 512-bit opaque blob.
+ * @note This type is called uint512 for historical reasons only. It is an opaque
+ * blob of 512 bits and has no integer operations.
+ */
+class uint512 : public base_blob<512> {
+public:
+    uint512() {}
+    explicit uint512(const std::vector<unsigned char>& vch) : base_blob<512>(vch) {}
+    uint256 trim256() const
+    {
+        std::vector<uint8_t> vch(0,uint512::WIDTH/2);
+        return uint256(vch);
+    }
+};
+
 /* uint256 from const char *.
  * This is a separate function because the constructor uint256(const char*) can result
  * in dangerously catching uint256(0).
