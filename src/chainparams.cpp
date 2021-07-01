@@ -71,6 +71,7 @@ public:
         consensus.BIP66Height = 811879; // 7aceee012833fa8952f8835d8b1b3ae233cd6ab08fdb27a771d2bd7bdc491894
         consensus.PremineEndHeight = 1000;
         consensus.FirstTimespanChangeHeight = 97050;
+        consensus.MultiAlgoForkHeight = 218000;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
         consensus.nPowOriginalTargetTimespan = 5 * 24 * 60 * 60; // 5 days

@@ -63,6 +63,8 @@ struct Params {
     /** [smly] Block height when first target timespan change was made and original timespan*/
     int FirstTimespanChangeHeight;
     int64_t nPowOriginalTargetTimespan;
+    /** [smly] Block height at which multi algo fork becomes active */
+    int MultiAlgoForkHeight;
     /**
      * Minimum blocks including miner confirmation of the total of 2016 blocks in a retargeting period,
      * (nPowTargetTimespan / nPowTargetSpacing) which is also used for BIP9 deployments.
