@@ -413,6 +413,7 @@ libbitcoin_consensus_a_SOURCES = \
   util/strencodings.cpp \
   util/strencodings.h \
   version.h \
+  multialgo/multialgo.h \
   multialgo/groestl.c \
   multialgo/aes_helper.c \
   multialgo/skein.c \

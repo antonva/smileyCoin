@@ -69,9 +69,6 @@ public:
         consensus.BIP34Hash = uint256S("70c81bab6688652cf89c22c8a6509b58b49519ad878452255d2468305157640d");
         consensus.BIP65Height = 918684; // bab3041e8977e0dc3eeff63fe707b92bde1dd449d8efafb248c27c8264cc311a
         consensus.BIP66Height = 811879; // 7aceee012833fa8952f8835d8b1b3ae233cd6ab08fdb27a771d2bd7bdc491894
-        consensus.PremineEndHeight = 1000;
-        consensus.FirstTimespanChangeHeight = 97050;
-        consensus.MultiAlgoForkHeight = 218000;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
         consensus.nPowOriginalTargetTimespan = 5 * 24 * 60 * 60; // 5 days
@@ -80,10 +77,27 @@ public:
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 6048; // 75% of 8064
-        consensus.nMinerConfirmationWindow = 8064; // nPowTargetTimespan / nPowTargetSpacing * 4
+        consensus.nMinerConfirmationWindow = 2400; // nPowTargetTimespan / nPowTargetSpacing * 4
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
+
+        // [smly] Smileycoin specific parameters.
+        consensus.PremineEndHeight = 1000;
+        consensus.FirstTimespanChangeHeight = 97050;
+        consensus.MultiAlgoForkHeight = 218000;
+        consensus.MultiAlgoTimespanForkHeight = 225000;
+        consensus.DifficultyChangeForkHeight = 525000;
+        consensus.nMultiAlgoNum = 5;                 // Number of algos implemented
+        consensus.nMultiAlgoTimespan = 36;           // Time per block per algo
+        consensus.nMultiAlgoTimespanV2 180;          // Time per block per algo
+        consensus.nMultiAlgoMaxAdjustUp = 20;        // 20% adjustment up
+        consensus.nMultiAlgoMaxAdjustUpV2 = 4;       // 4% adjustment up
+        consensus.nMultiAlgoMaxAdjustDown = 20;      // 20% adjustment down
+        consensus.nMultiAlgoMaxAdjustDownV2 = 8;     // 8% adjustment down
+        consensus.nMultiAlgoAveragingInterval = 60;  // 60 blocks
+        consensus.nMultiAlgoAveragingIntervalV2 = 2; // 2 blocks
+        consensus.nMultiAlgoTargetSpacing = consensus.nMultiAlgoNum * consensus.nMultiAlgoTimespanV2;
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
@@ -99,7 +113,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000002ee655bf00bf13b4cca");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0xb34a457c601ef8ce3294116e3296078797be7ded1b0d12515395db9ab5e93ab8"); //1683528
+        consensus.defaultAssumeValid = uint256S("0x660f734cf6c6d16111bde201bbd2122873f2f2c078b969779b9d4c99732354fd"); //Genesis, TODO update
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.

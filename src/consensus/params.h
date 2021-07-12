@@ -65,6 +65,11 @@ struct Params {
     int64_t nPowOriginalTargetTimespan;
     /** [smly] Block height at which multi algo fork becomes active */
     int MultiAlgoForkHeight;
+    /** [smly] Block height at which multi algo timespan change fork becomes active */
+    int MultiAlgoTimespanForkHeight;
+    int64_t nMultiAlgoTimespanV2;
+    /** [smly] Block height at which the difficulty change fork becomes active*/
+    int64_t DifficultyChangeForkHeight;
     /**
      * Minimum blocks including miner confirmation of the total of 2016 blocks in a retargeting period,
      * (nPowTargetTimespan / nPowTargetSpacing) which is also used for BIP9 deployments.
@@ -79,18 +84,20 @@ struct Params {
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
-    /**
-     * [smly] The nPowTargetTimespan change introduced in block 97050 requires
-     * a conditional evaluation of the DifficultyAdjustmentInterval.
-     */
-    int64_t DifficultyAdjustmentInterval(int nHeight) const {
-        if (nHeight < FirstTimespanChangeHeight) {
-            return nPowOriginalTargetTimespan / nPowTargetSpacing;
-        }
-        return nPowTargetTimespan / nPowTargetSpacing;
-    }
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
+    /** Multialgo parameters*/
+    int nMultiAlgoNum;
+    int64_t nMultiAlgoAvegagingInterval;
+    int64_t nMultiAlgoAveragingIntervalV2;
+    int64_t nMultiAlgoLocalTargetAdjustment;
+    int64_t nMultiAlgoLocalTargetAdjustmentV2;
+    int64_t nMultiAlgoMaxAdjustDown;
+    int64_t nMultiAlgoMaxAdjustDownV2;
+    int64_t nMultiAlgoMaxAdjustUp;
+    int64_t nMultiAlgoMaxAdjustUpV2;
+    int64_t nMultiAlgoTargetSpacing;
+    int64_t nMultiAlgoTimespan;
 };
 } // namespace Consensus
 
